@@ -9,7 +9,7 @@ import javax.persistence.Id;
  * Created by hackerfreak on 18/7/17.
  */
 
-@Entity(name = "User")
+@Entity(name = "user")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -20,6 +20,15 @@ public class User {
     private String fname;
     private String lname;
 
+    public String getFilePath() {
+        return filePath;
+    }
+
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
+    }
+
+    private String filePath;
 
     public String getEmail() {
         return email;

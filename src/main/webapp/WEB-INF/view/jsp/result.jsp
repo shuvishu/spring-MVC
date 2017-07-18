@@ -12,5 +12,6 @@
 </head>
 <body>
     welcome ${username}
+<img src="../../../staticImages/user.jpg">
 </body>
 </html>
