@@ -7,6 +7,12 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.query.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import javax.management.Query;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -81,15 +87,40 @@ public class UserService implements IUserRepository{
 
     public void sendEmailToUser(String email){
 
-        String To=email;
-        String From="mamtalbism@gmail.com";
-        String host="localhost";
 
-        Properties properties = System.getProperties();
-        properties.setProperty("mail.smtp.host", host);
-        Session session = Session.
+        User em=new UserService().getUser(email);
+        String From ="mamtalbism@gmail.com";
+        String To=em.getEmail();
+        String password="pmamtalbism";
 
-    }
+
+        Properties props = new Properties();
+        props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.socketFactory.port", "465");
+        props.put("mail.smtp.socketFactory.class",
+                "javax.net.ssl.SSLSocketFactory");
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.port", "465");
+        //get Session
+        javax.mail.Session session = javax.mail.Session.getDefaultInstance(props,
+                new javax.mail.Authenticator() {
+                    protected PasswordAuthentication getPasswordAuthentication() {
+                        return new PasswordAuthentication(From,password);
+                    }
+                });
+        //compose message
+        try {
+            MimeMessage message = new MimeMessage(session);
+            message.addRecipient(Message.RecipientType.TO,new InternetAddress(To));
+            message.setSubject("hi "+em.getFname()+" here is your password");
+            message.setText(em.getPassword()+" how ever you may click the following link to reset the password Http://localhost:8080/reset?username='"+em.getUsername()+"'");
+            //send message
+            Transport.send(message);
+            System.out.println("message sent successfully");
+        } catch (MessagingException e) {throw new RuntimeException(e);}
+
+
+}
 
 
     @Override
@@ -109,7 +140,16 @@ public class UserService implements IUserRepository{
         org.hibernate.query.Query query=session.getNamedQuery("fetchEmail");
         query.setParameter("username",userNameOrmail);
         query.setParameter("email",userNameOrmail);
-        User user=(User) query.getParameterValue(0);
+        User user=(User) query.getSingleResult();
         return user;
+    }
+    public String fetchEmail(String userNameOrmail) {
+        Session session=sessionFactory.openSession();
+        session.beginTransaction();
+        org.hibernate.query.Query query=session.getNamedQuery("fetchEmail");
+        query.setParameter("username",userNameOrmail);
+        query.setParameter("email",userNameOrmail);
+        User user=(User) query.getSingleResult();
+        return user.getEmail();
     }
 }
