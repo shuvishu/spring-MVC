@@ -1,16 +1,26 @@
 package com.linksharing.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 /**
  * Created by hackerfreak on 18/7/17.
  */
 
+
+@NamedQueries({
+        @NamedQuery(name="checkUserName", query = "from user u where u.username=:name or u.email=:email"),
+        @NamedQuery(name="checkLoginCredentials",query = "from user lg where lg.username=:username AND lg.password=:password"),
+        @NamedQuery(name = "fetchEmail",query = "from user t where t.email=:email or t.username=:username")
+})
+
+
+
+
 @Entity(name = "user")
 public class User {
+
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
@@ -19,6 +29,7 @@ public class User {
     private String password;
     private String fname;
     private String lname;
+    private String filePath;
 
     public String getFilePath() {
         return filePath;
@@ -27,8 +38,6 @@ public class User {
     public void setFilePath(String filePath) {
         this.filePath = filePath;
     }
-
-    private String filePath;
 
     public String getEmail() {
         return email;

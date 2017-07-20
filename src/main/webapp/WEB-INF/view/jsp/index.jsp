@@ -101,7 +101,7 @@ To change this template use File | Settings | File Templates.
                         <div class="container-fluid">
                             <div class="row share">
                                 <div class="col-sm-3">
-                                    <img src="../../../staticImages/user.jpg" alt="user" class="img-responsive center-block" id="user-img"/>
+                                    <img src="/resources/staticImages/user.jpg" alt="user" class="img-responsive center-block" id="user-img"/>
                                 </div>
                                 <div class="col-sm-9">
                                     <div class="row">
@@ -127,7 +127,7 @@ To change this template use File | Settings | File Templates.
                             </div>
                             <div class="row share">
                                 <div class="col-sm-3">
-                                    <img src="../../../staticImages/user.jpg" alt="user" class="img-responsive center-block" id="user-img">
+                                    <img src="/resources/staticImages/user.jpg" alt="user" class="img-responsive center-block" id="user-img">
                                 </div>
                                 <div class="col-sm-9">
                                     <div class="row">
@@ -177,7 +177,7 @@ To change this template use File | Settings | File Templates.
                     <div class="panel-body">
                         <div class="row share">
                             <div class="col-sm-3">
-                                <img src="../../../staticImages/user.jpg" alt="user" class="img-responsive center-block" id="user-img">
+                                <img src="/resources/staticImages/user.jpg" alt="user" class="img-responsive center-block" id="user-img">
                             </div>
                             <div class="col-sm-9">
                                 <div class="row">
@@ -209,29 +209,29 @@ To change this template use File | Settings | File Templates.
                     <div class="panel-heading font-md">Login</div>
                     <div class="panel-body">
                         <div class="container-fluid">
-                            <form class="form-horizontal" action="#">
+                            <form class="form-horizontal" action="/login" method="post">
                                 <div class="form-group">
                                     <div class="row">
-                                        <label class="control-label col-sm-3" for="email">Email:</label>
+                                        <label class="control-label col-sm-3" for="username">Email:</label>
                                         <div class="col-sm-9">
-                                            <input type="email" class="form-control" id="email" name="email">
+                                            <input type="text" class="form-control" id="username" name="userName">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <div class="row">
-                                        <label class="control-label col-sm-3" for="pwd">Password:</label>
+                                        <label class="control-label col-sm-3" for="password">Password:</label>
                                         <div class="col-sm-9">
-                                            <input type="password" class="form-control" id="pwd" name="pwd">
+                                            <input type="password" class="form-control" id="password" name="password">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <div class="col-sm-7 text-center font-md">
-                                        <a href="#"> <u>Forgot Password</u> </a>
+                                        <a href="/forgot"> <u>Forgot Password</u> </a>
                                     </div>
                                     <div class="col-sm-5">
-                                        <button class="btn btn-default">Login</button>
+                                        <input type="submit" class="btn btn-default" name="submitLogin"/>
                                     </div>
                                 </div>
                             </form>
@@ -242,12 +242,12 @@ To change this template use File | Settings | File Templates.
                     <div class="panel-heading font-md">Register</div>
                     <div class="panel-body">
                         <div class="container-fluid">
-                            <form class="form-horizontal" action="/register" enctype="multipart/form-data" method="post">
+                            <form name="formReg" class="form-horizontal" action="/register" enctype="multipart/form-data" method="post" onsubmit="return callOnRegSubmit()">
                                 <div class="form-group">
                                     <div class="row">
                                         <label class="control-label col-sm-3" for="fname">First Name</label>
                                         <div class="col-sm-9">
-                                            <input type="text" class="form-control" id="fname" name="fname">
+                                            <input type="text" class="form-control" id="fname" name="fname" required="required">
                                         </div>
                                     </div>
                                 </div>
@@ -255,7 +255,7 @@ To change this template use File | Settings | File Templates.
                                     <div class="row">
                                         <label class="control-label col-sm-3" for="lname">Last Name</label>
                                         <div class="col-sm-9">
-                                            <input type="text" class="form-control" id="lname" name="lname">
+                                            <input type="text" class="form-control" id="lname" name="lname" required="required">
                                         </div>
                                     </div>
                                 </div>
@@ -263,7 +263,7 @@ To change this template use File | Settings | File Templates.
                                     <div class="row">
                                         <label class="control-label col-sm-3" for="email">Email:</label>
                                         <div class="col-sm-9">
-                                            <input type="email" class="form-control" id="email" name="email">
+                                            <input type="email" class="form-control" id="email" name="email" required="required">
                                         </div>
                                     </div>
                                 </div>
@@ -271,7 +271,7 @@ To change this template use File | Settings | File Templates.
                                     <div class="row">
                                         <label class="control-label col-sm-3" for="uname">Username</label>
                                         <div class="col-sm-9">
-                                            <input type="text" class="form-control" id="uname" name="username">
+                                            <input type="text" class="form-control" id="uname" name="username" required="required">
                                         </div>
                                     </div>
                                 </div>
@@ -287,7 +287,7 @@ To change this template use File | Settings | File Templates.
                                     <div class="row">
                                         <label class="control-label col-sm-3" for="pwd">Confirm Password</label>
                                         <div class="col-sm-9">
-                                            <input type="password" class="form-control" id="pwd" name="c_pwd">
+                                            <input type="text" class="form-control" id="pwd" name="c_pwd">
                                         </div>
                                     </div>
                                 </div>
@@ -295,13 +295,13 @@ To change this template use File | Settings | File Templates.
                                     <div class="row">
                                         <label class="control-label col-sm-3" for="photo">Photo</label>
                                         <div class="col-sm-4">
-                                            <input type="file"   id="photo" name="userImage" accept="image/*,*.jpg">
+                                            <input type="file"   id="photo" name="userImage" accept="image/*,*.jpg" required="required">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <div class="col-sm-5 pull-right">
-                                        <button class="btn btn-default">Register</button>
+                                        <input type="submit" class="btn btn-default" name="submitReg"/>
                                     </div>
                                 </div>
                             </form>
@@ -326,6 +326,9 @@ To change this template use File | Settings | File Templates.
         var nav_height=nav_height+"px";
         $("#navbar").css("line-height",nav_height,"vertical-align","middle");
     });
+</script>
+<script src="/resources/JavaScript/indexJS.js">
+
 </script>
 </body>
 </html>

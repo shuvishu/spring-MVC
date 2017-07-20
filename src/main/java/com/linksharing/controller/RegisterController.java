@@ -11,11 +11,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+
+import javax.servlet.ServletContext;
 
 /**
  * Created by hackerfreak on 18/7/17.
@@ -27,6 +24,9 @@ public class RegisterController {
     @Qualifier(value = "circle1")
     UserService userService;
 
+    @Autowired
+    ServletContext context;
+
     @RequestMapping("/")
     ModelAndView index() {
         ModelAndView modelAndView = new ModelAndView("index");
@@ -37,23 +37,34 @@ public class RegisterController {
     @RequestMapping(value = "/register",method = RequestMethod.POST)
     ModelAndView registerUser(@ModelAttribute User user, @RequestParam("userImage") MultipartFile file) {
 
-
-            String path="../../../../../../UserImages/";
-        try {/*
-            File file1=new File(user.getUsername()+".jpg");
-            file.transferTo(file1);*/
-            byte[] bytes=file.getBytes();
-            Path path1= Paths.get(path+user.getUsername()+".jpg");
-            Files.write(path1,bytes);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        user.setFilePath(path+user.getUsername()+".jpg");
+        String path="/media/hackerfreak/New Volume/Java JEE/TTN Idea proj/LinkSharingGradle/UserImages/";
         UserService us = new UserService();
-        us.saveUser(user);
-        ModelAndView mv = new ModelAndView();
-        mv.setViewName("result");
-        mv.addObject("username", user.getFname());
-        return mv;
+        if(us.checkUser(user))
+        {
+            us.saveUser(user,file,path);
+            ModelAndView mv = new ModelAndView();
+            mv.setViewName("result");
+            mv.addObject("username", user.getFname());
+            return mv;
+        }
+
+        else {
+            ModelAndView mv = new ModelAndView();
+            mv.setViewName("errorPage");
+
+            return mv;
+        }
+
     }
+
+
+    @RequestMapping(name = "/forgot",method = RequestMethod.GET)
+    ModelAndView forgotPassword(){
+        ModelAndView modelAndView=new ModelAndView("forgotPassword");
+        return modelAndView;
+    }
+
+
+
+
 }

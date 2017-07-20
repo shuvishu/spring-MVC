@@ -8,5 +8,5 @@ public interface IUserRepository {
 
     public User registerUser(User user);
 
-    public User getUser(String userName);
+    public User getUser(String userName );
 }
