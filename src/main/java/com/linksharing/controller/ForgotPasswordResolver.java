@@ -2,6 +2,7 @@ package com.linksharing.controller;
 
 
 import com.linksharing.dto.UserPasswordUpdater;
+import com.linksharing.model.User;
 import com.linksharing.repository.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -42,8 +43,13 @@ public class ForgotPasswordResolver {
     }
 
     @RequestMapping(value = "/ResetPassword",method = RequestMethod.POST)
-    void updatePassword(@ModelAttribute UserPasswordUpdater updater){
-
+    ModelAndView updatePassword(@ModelAttribute UserPasswordUpdater updater){
+        UserService us = new UserService();
+       us.getUserBUserName(updater.getUname(),updater);
+        ModelAndView modelAndView=new ModelAndView();
+        modelAndView.addObject("username",updater.getUname());
+        modelAndView.setViewName("passwordChanged");
+        return modelAndView;
 
     }
 }

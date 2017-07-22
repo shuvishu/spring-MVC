@@ -10,7 +10,9 @@ import javax.persistence.*;
 @NamedQueries({
         @NamedQuery(name="checkUserName", query = "from user u where u.username=:name or u.email=:email"),
         @NamedQuery(name="checkLoginCredentials",query = "from user lg where lg.username=:username AND lg.password=:password"),
-        @NamedQuery(name = "fetchEmail",query = "from user t where t.email=:email or t.username=:username")
+        @NamedQuery(name = "fetchEmail",query = "from user t where t.email=:email or t.username=:username"),
+        @NamedQuery(name = "fetchByuname",query = "from user u where u.username=:usertofetch"),
+        @NamedQuery(name="test",query = "update user u set u.password=:password where u.username=:username")
 })
 
 

@@ -28,9 +28,7 @@
             <value>.jsp</value>
         </property>
     </bean>
-<!--
-    <mvc:resources mapping="/res/**" location="/resou"/>
--->
+    <mvc:resources mapping="/resources/**" location="/resources/"/>
     <mvc:annotation-driven/>
 
 

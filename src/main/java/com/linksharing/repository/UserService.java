@@ -1,5 +1,6 @@
 package com.linksharing.repository;
 
+import com.linksharing.dto.UserPasswordUpdater;
 import com.linksharing.model.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -114,7 +115,7 @@ public class UserService implements IUserRepository{
             MimeMessage message = new MimeMessage(session);
             message.addRecipient(Message.RecipientType.TO,new InternetAddress(To));
             message.setSubject("hi "+em.getFname()+" here is your password");
-            message.setText(em.getPassword()+" how ever you may click the following link to reset the password Http://localhost:8080/reset?username='"+em.getUsername()+"'");
+            message.setText(em.getPassword()+" how ever you may click the following link to reset the password Http://localhost:8080/reset?username="+em.getUsername());
             //send message
             Transport.send(message);
             System.out.println("message sent successfully");
@@ -132,6 +133,22 @@ public class UserService implements IUserRepository{
     @Override
     public User registerUser(User user) {
         return null;
+    }
+
+
+
+    public void getUserBUserName(String username, UserPasswordUpdater updater)
+    {
+        Session session=sessionFactory.openSession();
+        session.beginTransaction();
+        org.hibernate.query.Query query=session.getNamedQuery("fetchByuname");
+        query.setParameter("usertofetch",updater.getUname());
+        User user= (User) query.getSingleResult();
+        user.setPassword(updater.getPassword());
+        session.save(user);
+        session.getTransaction().commit();
+        session.close();
+
     }
 
     @Override
